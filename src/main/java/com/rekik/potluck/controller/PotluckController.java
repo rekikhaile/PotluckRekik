@@ -1,7 +1,7 @@
 package com.rekik.potluck.controller;
 
 import com.rekik.potluck.model.AppUser;
-import com.rekik.potluck.model.Pledge;
+import com.rekik.potluck.model.PledgeItems;
 import com.rekik.potluck.repository.AppRoleRepo;
 import com.rekik.potluck.repository.AppUserRepo;
 import com.rekik.potluck.repository.PledgeRepo;
@@ -65,12 +65,12 @@ public class PotluckController {
 
     @GetMapping("/addpledge")
     public String addPledge(Model model){
-        model.addAttribute("aPledge", new Pledge());
+        model.addAttribute("aPledge", new PledgeItems());
         return "pledgeform";
     }
 
     @PostMapping("/addpledge")
-    public String saveAddpledge(@Valid @ModelAttribute("aPledge") Pledge pledge, BindingResult result, Authentication auth)
+    public String saveAddpledge(@Valid @ModelAttribute("aPledge") PledgeItems pledge, BindingResult result, Authentication auth)
     {
         if(result.hasErrors())
         {
@@ -82,6 +82,41 @@ public class PotluckController {
 
         return "redirect:/";
     }
+
+
+    @PostMapping("/addusertopledge")
+    public String showUsersForPledge(HttpServletRequest request, Model model)
+    {
+        String pledgeid = request.getParameter("pledgeid");
+        model.addAttribute("newpledge",pledgeRepo.findOne(new Long(pledgeid)));
+
+        //Make users disappear from add form when they are already included (Set already makes it impossible to add multiple)
+        model.addAttribute("userList",userRepo.findAll());
+
+        return "addusertopledge";
+    }
+
+    @PostMapping("/saveusertopledge")
+    public String addUsertoPledge(HttpServletRequest request, @ModelAttribute("newpledge") PledgeItems pledge)
+    {
+        String userid = request.getParameter("userid");
+        System.out.println("Pledge id from add user to pledge:"+pledge.getId()+" User id:"+userid);
+        pledge.addUsertoPledge(userRepo.findOne(new Long(userid)));
+        pledgeRepo.save(pledge);
+        return "redirect:/";
+    }
+
+    @PostMapping("/viewpledgeusers")
+    public String viewPledgeUsers(HttpServletRequest request, Model model)
+    {
+        String pledgeid = request.getParameter("pledgeid");
+        PledgeItems pledge = pledgeRepo.findOne(new Long(pledgeid));
+        if(pledge.getPusers().size()<1)
+            return "redirect:/";
+        model.addAttribute("newpledge",pledge);
+        return "viewpledgeusers";
+    }
+
 
 
 }

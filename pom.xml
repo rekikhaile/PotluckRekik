@@ -61,6 +61,8 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- For my own as on my system hibernate is corrupted-->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
@@ -71,6 +73,21 @@
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>4.3.6.Final</version>
 		</dependency>
+
+		<!-- SECURITY CONFIGURATION EXTRAS FOR THYMELEAF-->
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
+			<version>2.1.2.RELEASE</version>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/net.sourceforge.nekohtml/nekohtml -->
+		<dependency>
+			<groupId>net.sourceforge.nekohtml</groupId>
+			<artifactId>nekohtml</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>

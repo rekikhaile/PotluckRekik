@@ -29,13 +29,18 @@ public class AppUser {
     //This needs to be instantiated in the construtor so you can use it to add and remove individual roles
     private Set<AppRole> roles;
 
-    public AppUser() {
-        this.roles = new HashSet<>();
-    }
-
+    //own method
     public void addRole(AppRole role)
     {
         this.roles.add(role);
+    }
+
+    @ManyToMany(mappedBy = "pusers")
+    private Set<PledgeItems> pledges;
+
+    public AppUser() {
+        this.roles = new HashSet<>();
+        this.pledges = new HashSet<>();// check
     }
 
 

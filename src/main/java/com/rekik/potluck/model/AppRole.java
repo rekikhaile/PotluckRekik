@@ -21,6 +21,8 @@ public class AppRole {
     //This needs to be instantiated in the construtor so you can use it to add and remove individual users
             Set<AppUser> users;
 
+    
+
     public AppRole() {
         this.users = new HashSet<>();
     }
