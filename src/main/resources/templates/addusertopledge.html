@@ -11,7 +11,7 @@
     <input type="text" th:field="*{itemType}">
     <input type="number" th:field="*{serving}">
     <input type="text" th:field="*{pusers}">
-    <div th:each="eachUser:${pusers}">
+    <div th:each="eachUser:${userList}">
         <button class="btn btn-default" type="submit" name="userid" th:value="${eachUser.id}" th:text="${eachUser.username}"></button>
     </div>
 

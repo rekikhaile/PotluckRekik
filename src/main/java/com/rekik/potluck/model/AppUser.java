@@ -14,8 +14,8 @@ public class AppUser {
 
     private String image;
 
-    @NotEmpty
-    @Column(unique = true)
+    //@NotEmpty
+    //@Column(unique = true)
     private String username;
 
     @NotEmpty

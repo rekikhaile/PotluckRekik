@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.HashSet;
 
 @Controller
 public class PotluckController {
@@ -63,6 +64,25 @@ public class PotluckController {
         return "redirect:/login";
     }
 
+
+
+    @RequestMapping("/getMyPledges")
+    public String getMyPledges(Authentication auth, Model model)
+    {
+
+       HashSet<AppUser> myUsers = new HashSet<>();
+        myUsers.add(userRepo.findAppUserByUsername(auth.getName()));
+
+        //AppUser myUser = userRepo.findAppUserByUsername(auth.getName());
+
+        HashSet <PledgeItems> myPledges = pledgeRepo.findPledgeItemsByPusersIn(myUsers);
+
+        System.out.println(myPledges.toString());
+        model.addAttribute("pledgelist",myPledges);
+        return "viewmypledges";
+    }
+
+
     @GetMapping("/addpledge")
     public String addPledge(Model model){
         model.addAttribute("aPledge", new PledgeItems());
@@ -83,8 +103,15 @@ public class PotluckController {
         return "redirect:/";
     }
 
+    @RequestMapping("/listpledges")
+    public String listPledges(Model model)
+    {
+        model.addAttribute("pledgelist",pledgeRepo.findAll());
+        return "listpledges";
+    }
 
-    @PostMapping("/addusertopledge")
+
+    @RequestMapping("/addusertopledge")
     public String showUsersForPledge(HttpServletRequest request, Model model)
     {
         String pledgeid = request.getParameter("pledgeid");
@@ -103,10 +130,10 @@ public class PotluckController {
         System.out.println("Pledge id from add user to pledge:"+pledge.getId()+" User id:"+userid);
         pledge.addUsertoPledge(userRepo.findOne(new Long(userid)));
         pledgeRepo.save(pledge);
-        return "redirect:/";
+        return "redirect:/listpledges";
     }
 
-    @PostMapping("/viewpledgeusers")
+    @RequestMapping("/viewpledgeusers")
     public String viewPledgeUsers(HttpServletRequest request, Model model)
     {
         String pledgeid = request.getParameter("pledgeid");

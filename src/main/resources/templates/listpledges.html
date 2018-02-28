@@ -9,32 +9,37 @@
     <title>Potluck</title>
 </head>
 <body>
+
 <div th:replace="base :: potlucknavbar"></div>
 <div class="container">
+    <div class="row">
+        <div class="col-md-8"><h4 class="pull-right"><a th:href="@{/addpledge}">Add</a></h4></div>
+    </div>
+    <table class="table">
+        <tr th:each="eachpledge:${pledgelist}">
+            <td th:text="${eachpledge.pledgeName}">Name</td>
+            <td th:text="${eachpledge.itemType}">Name</td>
+            <td th:text="${eachpledge.serving}">Name</td>
 
-    <h4>Potluck Time</h4>
-
-    <table class="table table-striped">
-        <tr th:each="pledge :${pledges}">
-
-            <p th:text ="'Pledge Name: ' +${pledge.pledgeName}"> Pledge Name</p>
-            <p th:text ="'Item Type: ' +${pledge.itemType}">Item Type</p>
-            <p th:text="'Serving: ' +${pledge.serving}"></p>
-            <p><b>Pledge Users</b></p>
-            <div th:each=" user : ${pledge.pusers}">
-                <p th:text="${user.username}">A User</p>
-            </div>
-
-
+            <form th:action="@{/addusertopledge}" th:method="post">
+                <td><button class="btn btn-default" name="pledgeid" th:value="${eachpledge.id}">Add User</button></td>
+            </form>
+            <td th:if="${eachpledge.pusers}!=null">
+                <span th:each = "eachUser:${eachpledge.pusers}">
+                    <button class="btn btn-sm btn-close" th:text="${eachUser.username}"></button>
+                </span>
+            </td>
         </tr>
-
-
     </table>
+</div>
 
-</div><!-- /.container -->
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
 </body>
 </html>
+
+

@@ -6,29 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <title>Potluck</title>
+    <title>My Pledges</title>
 </head>
 <body>
-<div th:replace="base :: potlucknavbar"></div>
+
 <div class="container">
 
-    <h4>Potluck Time</h4>
+    <h4> My Pledges</h4>
 
-    <table class="table table-striped">
-        <tr th:each="pledge :${pledges}">
+    <table class="table">
+        <tr th:each="eachpledge:${pledgelist}">
+            <td th:text="${eachpledge.pledgeName}">Name</td>
+            <td th:text="${eachpledge.itemType}">Item Type</td>
+            <td th:text="${eachpledge.serving}">Serving</td>
+            <td th:if="${eachpledge.pusers}!=null" th:text="${eachpledge.pusers.username}">User</td>
 
-            <p th:text ="'Pledge Name: ' +${pledge.pledgeName}"> Pledge Name</p>
-            <p th:text ="'Item Type: ' +${pledge.itemType}">Item Type</p>
-            <p th:text="'Serving: ' +${pledge.serving}"></p>
-            <p><b>Pledge Users</b></p>
-            <div th:each=" user : ${pledge.pusers}">
-                <p th:text="${user.username}">A User</p>
-            </div>
-
-
+            <form th:action="@{/addusertopledge}" th:method="post">
+                <td><button class="btn btn-default" name="pledgeid" th:value="${eachpledge.id}">Add User</button></td>
+            </form>
+            <form th:action="@{/viewpledgeusers}" th:method="post">
+                <td><button class="btn btn-default" name="pledgeid" th:value="${eachpledge.id}">View Added Users</button></td>
+            </form>
         </tr>
-
-
     </table>
 
 </div><!-- /.container -->

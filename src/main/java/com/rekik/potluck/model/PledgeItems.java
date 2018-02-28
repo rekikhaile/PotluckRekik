@@ -25,7 +25,7 @@ public class PledgeItems {
     {
         this.pusers.add(aAppUser);
     }*/
-   //own
+   //own method
     public void addUsertoPledge(AppUser aAppUser)
     {
         this.pusers.add(aAppUser);

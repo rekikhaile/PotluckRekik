@@ -32,16 +32,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 
                 //allow to all
-                .antMatchers("/h2-console/**", "/css/**", "/images/**","/register").permitAll()
+                .antMatchers("/", "/css/**", "/images/**","/register","/viewpledgeusers").permitAll()
                 //allowed only to recruiter
-                .antMatchers("/jobs/addjob").hasAuthority("RECRUITER")
-                //allowed to all
-                .antMatchers("/","/postskill", "/addskill","/jobs/displayjobs","/printletter","/displayresume")
-                    .access("hasAuthority('ADMIN') or hasAuthority('RECRUITER') or hasAuthority('APPLICANT') or hasAuthority('EMPLOYER') ")
-                //allowed to Applicant and Admin
-                .antMatchers("/employerindex","/index","/addpersonal","/postpersonal","/addeducation","/posteducation","/addexperience",
-                        "/postexperience", "/addsummary","/addreference","/addview",
-                        "/coverletter").access("hasAuthority('ADMIN') or hasAuthority('APPLICANT')")
+                .antMatchers("/addusertopledge","/saveusertopledge").hasAuthority("ADMIN")
+                //allowed to User and Admin
+                .antMatchers("/addpledge").access("hasAuthority('ADMIN') or hasAuthority('USER')")
 
                 .anyRequest().authenticated()
                 .and()
